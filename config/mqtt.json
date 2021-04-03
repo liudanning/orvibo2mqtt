@@ -1,0 +1,5 @@
+{
+  "server": "mqtt://server",
+  "username": "username",
+  "password": "password"
+}

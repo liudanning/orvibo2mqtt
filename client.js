@@ -2,7 +2,11 @@ const mqtt = require('mqtt');
 const _ = require('lodash');
 const Orvibo = require('orvibo-b25-server');
 
-const plugs = require('./plugs');
+
+const okey = require('./config/okey.json');
+const plugs = require('./config/plugs.json');
+const mqttCfg = require('./config/mqtt.json');
+
 const {
   getSubscribePath,
   getConfigPath,
@@ -11,16 +15,18 @@ const {
   getCommandTopic
 } = require('./topic-getters');
 
-const key = Buffer.from('6b686767643534383635534e4a484746', 'hex');
 // set this to your MQTT server
-const client = mqtt.connect('mqtt://localhost');
-const settings = {
-  LOG_PACKET: false,
-  ORVIBO_KEY: key.toString('utf8'),
-  plugInfo: plugs
-};
+const client = mqtt.connect(mqttCfg.server, {
+  username: mqttCfg.username,
+  password: mqttCfg.password
+});
 
-let orvibo = new Orvibo(settings);
+// set Orvibo server
+let orvibo = new Orvibo({
+  LOG_PACKET: false,
+  ORVIBO_KEY: okey,
+  plugInfo: plugs
+});
 
 const birthTopic = 'hass/status';
 
