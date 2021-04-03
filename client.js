@@ -48,6 +48,7 @@ const getLogger = () => {
 const logger = getLogger();
 
 const getDiscoveryResponse = plug => ({
+  unique_id: plug.uid,
   name: plug.name,
   state_topic: getStateTopic(plug),
   command_topic: getCommandTopic(plug),
